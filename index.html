@@ -135,6 +135,22 @@
           <a href="#predictor">Predict fit</a>
           <a href="#practice">Study plan</a>
         </div>
+        <div class="college-tools" aria-label="College search and sorting">
+          <label>
+            Search
+            <input id="collegeSearch" type="search" placeholder="College, city, university..." />
+          </label>
+          <label>
+            Sort
+            <select id="collegeSort">
+              <option value="recommended">Recommended</option>
+              <option value="name">Name A-Z</option>
+              <option value="score">Score range</option>
+              <option value="seats">Seats</option>
+            </select>
+          </label>
+          <button class="secondary-btn button-reset" id="resetCollegeFilters" type="button">Reset</button>
+        </div>
         <div class="college-layout">
           <div class="nepal-visual" aria-label="Visual college distribution in Nepal">
             <div class="map-toolbar">

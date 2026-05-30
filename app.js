@@ -155,6 +155,9 @@ const collegeList = document.querySelector("#collegeList");
 const collegeCount = document.querySelector("#collegeCount");
 const universityCount = document.querySelector("#universityCount");
 const mapFilterLabel = document.querySelector("#mapFilterLabel");
+const collegeSearch = document.querySelector("#collegeSearch");
+const collegeSort = document.querySelector("#collegeSort");
+const resetCollegeFilters = document.querySelector("#resetCollegeFilters");
 const roadmapNode = document.querySelector("#roadmap");
 const focusNode = document.querySelector("#focusAreas");
 const studyPlan = document.querySelector("#studyPlan");
@@ -223,6 +226,9 @@ const locationCoordinates = [
 let collegeMap;
 let collegeMarkerLayer;
 let activeFilter = "all";
+let activeCollegeId = "";
+let visibleColleges = [];
+const markerByCollegeId = new Map();
 
 function coordinatesForCollege(college, index) {
   const matched = locationCoordinates.find(([label]) => college.city.toLowerCase().includes(label.toLowerCase()));
@@ -231,6 +237,44 @@ function coordinatesForCollege(college, index) {
   const row = Math.floor(offsetGroup / 3) - 1;
   const col = (offsetGroup % 3) - 1;
   return [base[0] + row * 0.018, base[1] + col * 0.026];
+}
+
+function collegeId(college) {
+  return college.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+function baseFilteredColleges(filter) {
+  if (filter === "all") {
+    return colleges;
+  }
+  if (["TU", "RJU", "FWU", "MWU"].includes(filter)) {
+    return colleges.filter((college) => college.university === filter);
+  }
+  return colleges.filter((college) => college.region === filter);
+}
+
+function applyCollegeTools(list) {
+  const query = collegeSearch.value.trim().toLowerCase();
+  let filtered = query
+    ? list.filter((college) =>
+        [college.name, college.university, college.city, college.region, college.type].some((value) =>
+          String(value).toLowerCase().includes(query)
+        )
+      )
+    : [...list];
+
+  const sort = collegeSort.value;
+  if (sort === "name") {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sort === "score") {
+    filtered.sort((a, b) => b.range[0] - a.range[0]);
+  } else if (sort === "seats") {
+    filtered.sort((a, b) => (b.seats || 0) - (a.seats || 0));
+  } else {
+    filtered.sort((a, b) => b.range[0] - a.range[0] || a.name.localeCompare(b.name));
+  }
+
+  return filtered;
 }
 
 function initCollegeMap() {
@@ -268,6 +312,7 @@ function renderCollegeMap(filtered) {
   }
 
   collegeMarkerLayer.clearLayers();
+  markerByCollegeId.clear();
   filtered.forEach((college, index) => {
     const [lat, lng] = coordinatesForCollege(college, index);
     const marker = L.circleMarker([lat, lng], {
@@ -283,6 +328,7 @@ function renderCollegeMap(filtered) {
       <span>${college.university} - ${college.city}</span>
       <span>${college.seats ? `${college.seats} seats` : "Seats to verify"}</span>
     `);
+    markerByCollegeId.set(collegeId(college), marker);
     marker.addTo(collegeMarkerLayer);
   });
 
@@ -297,20 +343,29 @@ function renderCollegeMap(filtered) {
   mapFilterLabel.textContent = activeFilter === "all" ? "All universities" : activeFilter;
 }
 
+function focusCollegeOnMap(id) {
+  const marker = markerByCollegeId.get(id);
+  if (!marker || !collegeMap) {
+    return;
+  }
+  activeCollegeId = id;
+  document.querySelectorAll(".college-card").forEach((card) => {
+    card.classList.toggle("active", card.dataset.collegeId === id);
+  });
+  collegeMap.setView(marker.getLatLng(), 10, { animate: true });
+  marker.openPopup();
+}
+
 function renderColleges(filter = "all") {
   activeFilter = filter;
-  const filtered =
-    filter === "all"
-      ? colleges
-      : ["TU", "RJU", "FWU", "MWU"].includes(filter)
-        ? colleges.filter((college) => college.university === filter)
-        : colleges.filter((college) => college.region === filter);
+  const filtered = applyCollegeTools(baseFilteredColleges(filter));
+  visibleColleges = filtered;
   collegeCount.textContent = filtered.length;
   universityCount.textContent = new Set(filtered.map((college) => college.university)).size;
   collegeList.innerHTML = filtered
     .map(
       (college) => `
-        <article class="college-card">
+        <article class="college-card ${collegeId(college) === activeCollegeId ? "active" : ""}" data-college-id="${collegeId(college)}" tabindex="0">
           <div>
             <h3>${college.name}</h3>
             <p>${college.university} - ${college.city} - ${college.type} - ${college.seats ? `${college.seats} seats` : "seats to verify"}</p>
@@ -321,11 +376,11 @@ function renderColleges(filter = "all") {
               <span class="tag fill-fast">${college.fill}</span>
             </div>
           </div>
-          <a class="secondary-btn" href="#predictor">Check fit</a>
+          <a class="secondary-btn" href="#predictor" aria-label="Check fit for ${college.name}">Check fit</a>
         </article>
       `
     )
-    .join("");
+    .join("") || `<div class="info-panel"><strong>No colleges found</strong><p>Try a different city, university, or reset the filters.</p></div>`;
   renderCollegeMap(filtered);
 }
 
@@ -500,8 +555,47 @@ document.querySelectorAll("[data-filter]").forEach((button) => {
   button.addEventListener("click", () => {
     document.querySelectorAll("[data-filter]").forEach((item) => item.classList.remove("active"));
     button.classList.add("active");
+    activeCollegeId = "";
     renderColleges(button.dataset.filter);
   });
+});
+
+collegeSearch.addEventListener("input", () => {
+  activeCollegeId = "";
+  renderColleges(activeFilter);
+});
+
+collegeSort.addEventListener("change", () => {
+  renderColleges(activeFilter);
+});
+
+resetCollegeFilters.addEventListener("click", () => {
+  collegeSearch.value = "";
+  collegeSort.value = "recommended";
+  activeCollegeId = "";
+  document.querySelectorAll("[data-filter]").forEach((item) => item.classList.toggle("active", item.dataset.filter === "all"));
+  renderColleges("all");
+});
+
+collegeList.addEventListener("click", (event) => {
+  if (event.target.closest("a")) {
+    return;
+  }
+  const card = event.target.closest(".college-card");
+  if (card) {
+    focusCollegeOnMap(card.dataset.collegeId);
+  }
+});
+
+collegeList.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") {
+    return;
+  }
+  const card = event.target.closest(".college-card");
+  if (card) {
+    event.preventDefault();
+    focusCollegeOnMap(card.dataset.collegeId);
+  }
 });
 
 document.querySelectorAll("[data-plan]").forEach((button) => {

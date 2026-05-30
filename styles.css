@@ -395,6 +395,36 @@ h3 {
   font-weight: 800;
 }
 
+.college-tools {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(150px, 0.25fr) auto;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 14px;
+  padding: 12px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.college-tools label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.college-tools input,
+.college-tools select {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 11px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
 .nepal-visual {
   display: grid;
   align-content: start;
@@ -526,6 +556,19 @@ h3 {
   align-items: center;
   padding: 12px 14px;
   border-left: 5px solid var(--green);
+  cursor: pointer;
+  text-align: left;
+}
+
+.college-card:focus,
+.college-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 8px 22px rgba(23, 32, 27, 0.1);
+}
+
+.college-card.active {
+  border-color: var(--blue);
+  background: #f4f9fc;
 }
 
 .college-card h3 {
@@ -920,7 +963,8 @@ h3 {
   }
 
   .quick-actions,
-  .exam-lead-form {
+  .exam-lead-form,
+  .college-tools {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -994,6 +1038,7 @@ h3 {
   .practice-controls,
   .quick-actions,
   .exam-lead-form,
+  .college-tools,
   .option-list {
     grid-template-columns: 1fr;
   }
