@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The StudyPort | BSc CSIT Entrance Prep</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="The StudyPort home">
+        <span class="brand-mark">SP</span>
+        <span>
+          <strong>The StudyPort</strong>
+          <small>Entrance Prep</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#colleges">Colleges</a>
+        <a href="#entrance">Entrance</a>
+        <a href="#practice">Practice</a>
+        <a href="#papers">Past Papers</a>
+        <a href="#predictor">Predictor</a>
+      </nav>
+      <a class="header-cta" href="#mock">Start Practice</a>
+    </header>
+
+    <main id="home">
+      <section class="hero-section">
+        <div class="hero-copy">
+          <p class="eyebrow">BSc CSIT Nepal entrance preparation</p>
+          <h1>BSc CSIT prep, colleges, papers, and score planning in one place.</h1>
+          <p class="hero-text">
+            Explore the degree, compare colleges across Nepal, follow a focused prep plan, practice high-value questions, and take mock exams without signing in.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#mock">Start Practice</a>
+            <a class="secondary-btn" href="#colleges">Explore Colleges</a>
+          </div>
+          <div class="trust-row" aria-label="Portal highlights">
+            <span>No signup</span>
+            <span>Exam-style MCQs</span>
+            <span>College predictor</span>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="BSc CSIT preparation dashboard preview">
+          <div class="visual-top">
+            <span>CSIT Entrance Readiness</span>
+            <strong>74%</strong>
+          </div>
+          <div class="readiness-chart" aria-hidden="true">
+            <span style="--height: 68%"></span>
+            <span style="--height: 46%"></span>
+            <span style="--height: 81%"></span>
+            <span style="--height: 58%"></span>
+            <span style="--height: 73%"></span>
+          </div>
+          <div class="hero-card-row">
+            <div>
+              <small>Target</small>
+              <strong>Top TU colleges</strong>
+            </div>
+            <div>
+              <small>Next step</small>
+              <strong>Math mock set</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="content-band overview-grid">
+        <div>
+          <p class="eyebrow">Start here</p>
+          <h2>What is BSc CSIT?</h2>
+          <p>
+            BSc CSIT is a computer science and information technology degree focused on programming, systems, databases, networking, software engineering, and applied computing. This portal starts with BSc CSIT and is structured so more entrance tracks can be added later.
+          </p>
+        </div>
+        <div class="info-panel">
+          <h3>Who this is for</h3>
+          <ul class="clean-list">
+            <li>Class 12 students exploring computer-related degrees</li>
+            <li>Students preparing for CSIT entrance exams</li>
+            <li>Families comparing colleges, seats, and locations</li>
+          </ul>
+        </div>
+        <div class="info-panel">
+          <h3>Use it directly</h3>
+          <p>No account is needed. Give your name, phone, and email only when you want a saved result, study plan, or counselling callback.</p>
+        </div>
+      </section>
+
+      <section id="colleges" class="content-band">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Across Nepal</p>
+            <h2>Colleges and availability</h2>
+          </div>
+          <div class="filter-tabs" role="tablist" aria-label="College filters">
+            <button class="active" data-filter="all" type="button">All</button>
+            <button data-filter="TU" type="button">TU</button>
+            <button data-filter="RJU" type="button">RJU</button>
+            <button data-filter="FWU" type="button">FWU</button>
+            <button data-filter="MWU" type="button">MWU</button>
+            <button data-filter="Kathmandu" type="button">Kathmandu</button>
+            <button data-filter="Pokhara" type="button">Pokhara</button>
+            <button data-filter="Outside Valley" type="button">Outside Valley</button>
+          </div>
+        </div>
+        <div class="university-strip" aria-label="University and program snapshot">
+          <article>
+            <span>TU</span>
+            <strong>BSc CSIT</strong>
+            <p>Primary launch track with college, seat, exam, and preparation data.</p>
+          </article>
+          <article>
+            <span>RJU, FWU, MWU</span>
+            <strong>BSc CSIT</strong>
+            <p>Rajarshi Janak, Far-Western, and Mid-West University options are tracked separately from TU.</p>
+          </article>
+          <article>
+            <span>Data note</span>
+            <strong>Verify before publish</strong>
+            <p>Seats, fees, notices, and score ranges should be refreshed from recent official sources.</p>
+          </article>
+        </div>
+        <div class="quick-actions" aria-label="Fast student actions">
+          <a href="#colleges">Find college</a>
+          <a href="#mock">Start exam</a>
+          <a href="#predictor">Predict fit</a>
+          <a href="#practice">Study plan</a>
+        </div>
+        <div class="college-layout">
+          <div class="nepal-visual" aria-label="Visual college distribution in Nepal">
+            <div class="map-toolbar">
+              <strong>Nepal BSc CSIT map</strong>
+              <span id="mapFilterLabel">All universities</span>
+            </div>
+            <div id="collegeMap" class="college-map" role="img" aria-label="Nepal map with BSc CSIT college pins"></div>
+            <div class="map-legend" aria-label="University marker legend">
+              <span><i class="legend-tu"></i>TU</span>
+              <span><i class="legend-rju"></i>RJU</span>
+              <span><i class="legend-fwu"></i>FWU</span>
+              <span><i class="legend-mwu"></i>MWU</span>
+            </div>
+            <p class="map-note">Map is bounded to Nepal. Pins use available campus/city locations and should be verified before launch.</p>
+            <div class="map-stats">
+              <span><strong id="collegeCount">0</strong> colleges tracked</span>
+              <span><strong id="universityCount">0</strong> universities tracked</span>
+            </div>
+          </div>
+          <div class="college-list" id="collegeList" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="entrance" class="content-band split-section">
+        <div>
+          <p class="eyebrow">Admission roadmap</p>
+          <h2>What you need to do to get in</h2>
+          <div class="timeline" id="roadmap"></div>
+        </div>
+        <div class="focus-panel">
+          <h3>Entrance focus areas</h3>
+          <div id="focusAreas"></div>
+        </div>
+      </section>
+
+      <section id="practice" class="content-band">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Preparation guide</p>
+            <h2>Real study plan, not vague advice</h2>
+          </div>
+          <div class="filter-tabs plan-tabs" role="tablist" aria-label="Study plan duration">
+            <button class="active" data-plan="30" type="button">30 days</button>
+            <button data-plan="60" type="button">60 days</button>
+            <button data-plan="90" type="button">90 days</button>
+          </div>
+        </div>
+        <div class="plan-grid" id="studyPlan"></div>
+      </section>
+
+      <section id="mock" class="content-band mock-section">
+        <div class="mock-copy">
+          <p class="eyebrow">Exam practice</p>
+          <h2>Choose real CSIT entrance-style practice by subject and topic</h2>
+          <p>Built around the 100-mark CSIT pattern: Mathematics 25, Physics 25, Chemistry 25, English 15, and Computer/General IT 10. Questions are original and syllabus-aligned, not copied from past papers.</p>
+        </div>
+        <div class="mock-card">
+          <form class="exam-lead-form" id="examLeadForm">
+            <label>
+              Name
+              <input id="examName" autocomplete="name" placeholder="Your name" required />
+            </label>
+            <label>
+              Email
+              <input id="examEmail" autocomplete="email" type="email" placeholder="you@example.com" required />
+            </label>
+            <label>
+              Phone
+              <input id="examPhone" autocomplete="tel" placeholder="98XXXXXXXX" required />
+            </label>
+            <button class="primary-btn button-reset" type="submit">Continue</button>
+          </form>
+          <div class="practice-gate" id="practiceGate">
+            Enter your details once to start subject-wise mock exams and practice sets.
+          </div>
+          <div class="practice-workspace" id="practiceWorkspace" hidden>
+            <div class="practice-controls" aria-label="Practice controls">
+              <label>
+                Subject
+                <select id="subjectSelect"></select>
+              </label>
+              <label>
+                Topic
+                <select id="topicSelect"></select>
+              </label>
+              <label>
+                Questions
+                <select id="questionLimit">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">Full exam</option>
+                </select>
+              </label>
+              <button class="primary-btn button-reset" id="startPractice" type="button">Start Practice</button>
+            </div>
+            <div class="bank-summary" id="bankSummary"></div>
+            <div id="quizArea"></div>
+            <div class="mock-actions">
+              <button class="secondary-btn button-reset" id="resetQuiz" type="button">Reset</button>
+              <button class="primary-btn button-reset" id="submitQuiz" type="button">Submit Practice</button>
+            </div>
+            <div class="score-box" id="scoreBox" hidden></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="papers" class="content-band papers-section">
+        <div>
+          <p class="eyebrow">Past papers and high-value practice</p>
+          <h2>Practice what actually moves your score</h2>
+        </div>
+        <div class="resource-grid" id="resourceGrid"></div>
+      </section>
+
+      <section class="content-band score-strategy">
+        <div>
+          <p class="eyebrow">Highest marks strategy</p>
+          <h2>Score more by studying in the right order</h2>
+          <p>Most students lose marks because they study everything equally. This portal should push them toward the topics, papers, and review habits that create the biggest score jump first.</p>
+        </div>
+        <div class="strategy-grid">
+          <article>
+            <strong>1. Secure easy marks</strong>
+            <p>Finish repeated formulas, definitions, grammar patterns, and common numerical types before chasing rare questions.</p>
+          </article>
+          <article>
+            <strong>2. Review every mistake</strong>
+            <p>Every mock should produce a mistake list, weak-topic list, and next practice set.</p>
+          </article>
+          <article>
+            <strong>3. Simulate exam pressure</strong>
+            <p>Use timed full mocks, section pacing, and negative-time recovery practice near the exam date.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="predictor" class="content-band predictor-section">
+        <div>
+          <p class="eyebrow">Score planning</p>
+          <h2>Estimate which colleges your score may unlock</h2>
+          <p class="muted">This is a product demo using sample ranges. Real launch data should be verified against official admissions and recent counselling patterns.</p>
+        </div>
+        <form class="predictor-form" id="predictorForm">
+          <label>
+            Expected entrance score
+            <input id="scoreInput" type="number" min="0" max="100" value="72" />
+          </label>
+          <label>
+            Preferred region
+            <select id="regionInput">
+              <option value="Any">Any region</option>
+              <option value="Kathmandu">Kathmandu</option>
+              <option value="Pokhara">Pokhara</option>
+              <option value="Outside Valley">Outside Valley</option>
+            </select>
+          </label>
+          <button class="primary-btn button-reset" type="submit">Predict Colleges</button>
+        </form>
+        <div class="prediction-results" id="predictionResults" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <a href="#home">Home</a>
+      <a href="#colleges">Colleges</a>
+      <a href="#practice">Practice</a>
+      <a href="#mock">Exam</a>
+      <a href="#predictor">Predict</a>
+    </nav>
+
+    <dialog class="lead-dialog" id="leadDialog">
+      <form method="dialog" class="lead-form" id="leadForm">
+        <button class="close-btn" value="close" aria-label="Close form">x</button>
+        <p class="eyebrow">Optional</p>
+        <h2>Send this plan to yourself</h2>
+        <p>Leave your details only if you want your result, study plan, or counselling follow-up.</p>
+        <label>
+          Name
+          <input name="name" autocomplete="name" placeholder="Your name" />
+        </label>
+        <label>
+          Phone
+          <input name="phone" autocomplete="tel" placeholder="98XXXXXXXX" />
+        </label>
+        <label>
+          Email
+          <input name="email" autocomplete="email" type="email" placeholder="you@example.com" />
+        </label>
+        <button class="primary-btn button-reset" value="submit" type="submit">Save My Details</button>
+      </form>
+    </dialog>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="question-bank.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
