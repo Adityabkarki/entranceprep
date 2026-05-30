@@ -180,6 +180,7 @@ const collegeList = document.querySelector("#collegeList");
 const collegeCount = document.querySelector("#collegeCount");
 const universityCount = document.querySelector("#universityCount");
 const mapFilterLabel = document.querySelector("#mapFilterLabel");
+const collegeResultsTitle = document.querySelector("#collegeResultsTitle");
 const collegeSearch = document.querySelector("#collegeSearch");
 const collegeSort = document.querySelector("#collegeSort");
 const resetCollegeFilters = document.querySelector("#resetCollegeFilters");
@@ -386,6 +387,7 @@ function renderColleges(filter = "all") {
   const filtered = applyCollegeTools(baseFilteredColleges(filter));
   visibleColleges = filtered;
   collegeCount.textContent = filtered.length;
+  collegeResultsTitle.textContent = `${filtered.length} ${filtered.length === 1 ? "college" : "colleges"}`;
   universityCount.textContent = new Set(filtered.map((college) => college.university)).size;
   collegeList.innerHTML = filtered
     .map(
