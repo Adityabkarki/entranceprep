@@ -106,11 +106,36 @@ const colleges = [
 }));
 
 const roadmap = [
-  ["Check eligibility", "Confirm your Class 12 stream, minimum marks, and required documents before forms open."],
-  ["Study the entrance syllabus", "Separate must-score topics from lower-priority topics and start with math fundamentals."],
-  ["Submit entrance form", "Track notices, deadlines, admit card, and exam center details in one checklist."],
-  ["Take mock exams", "Practice with timed sets, review mistakes, and repeat weak topics every week."],
-  ["Use score planning", "Compare your expected score with college demand and prepare backup choices early."],
+  {
+    stage: "Before forms",
+    title: "Check eligibility",
+    detail: "Confirm Class 12 stream, minimum grade/marks, ID, certificates, and photo format.",
+    action: "Build document checklist",
+  },
+  {
+    stage: "Prep start",
+    title: "Map the syllabus",
+    detail: "Mark 25 Math, 25 Physics, 25 Chemistry, 15 English, 10 Computer/IT into topics.",
+    action: "Start from high-weight chapters",
+  },
+  {
+    stage: "Application",
+    title: "Submit form cleanly",
+    detail: "Track notice, fee voucher, deadline, admit card, center, and correction window.",
+    action: "Save every receipt",
+  },
+  {
+    stage: "Final weeks",
+    title: "Mock and repair",
+    detail: "Take timed mocks, tag mistakes, revise weak topics, then repeat the same pattern.",
+    action: "Fix top 3 weak areas",
+  },
+  {
+    stage: "After result",
+    title: "Choose colleges smartly",
+    detail: "Use score range, seats, location, fees, and fill-speed before locking priority choices.",
+    action: "Create safe-target-reach list",
+  },
 ];
 
 const focusAreas = [
@@ -387,12 +412,14 @@ function renderColleges(filter = "all") {
 function renderRoadmap() {
   roadmapNode.innerHTML = roadmap
     .map(
-      ([title, body], index) => `
+      (item, index) => `
         <div class="timeline-item">
-          <span>${index + 1}</span>
+          <span>${String(index + 1).padStart(2, "0")}</span>
           <div>
-            <h3>${title}</h3>
-            <p>${body}</p>
+            <small>${item.stage}</small>
+            <h3>${item.title}</h3>
+            <p>${item.detail}</p>
+            <strong>${item.action}</strong>
           </div>
         </div>
       `
